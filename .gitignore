@@ -1,0 +1,6 @@
+# 檔案名稱 .gitignore
+
+# 忽略 secret.yml 檔案
+node_modules
+
+*.env
