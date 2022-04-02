@@ -2,47 +2,28 @@ const mysql = require('mysql');
 
 require('dotenv').config()
 
-class DB {
-    constructor() {
-        this.establishedConnection = null;
-    }
+const pool = mysql.createPool({
+    host: process.env.DB_SERVER_HOST,
+    user: process.env.DB_SERVER_USER,
+    password: process.env.DB_SERVER_PASSWORD,
+    database: process.env.DB_SERVER_DATABASE,
+    waitForConnections : true,
+    // 連線池可建立的總連線數上限(預設上限10個連線數)
+    connectionLimit : 10
+})
 
-    connection() {
-        return new Promise((resolve, reject) => {
-            resolve(mysql.createConnection({
-                host: process.env.DB_SERVER_HOST,
-                user: process.env.DB_SERVER_USER,
-                password: process.env.DB_SERVER_PASSWORD,
-                database: process.env.DB_SERVER_DATABASE,
-            }))
-        })
-    }
-  
-    connect() {
-        if (!this.establishedConnection) {
-            this.establishedConnection = this.connection().then(res => {
-                res.connect(function(err) {
-                    if (err) {
-                        this.dropConnection();
-                        throw err;
-                    }
+module.exports = {
+    actionDB: function (res , sql) {
+        pool.getConnection(function (err, connection) {
 
-                    console.log(res.state, "connected")
-                })
-            });
-        }
-    }
+            if (err) throw err
 
-    dropConnection() {
-        if (this.establishedConnection) {
-            this.establishedConnection.then(res => {
-                res.end();
-                console.log(res.state, 'connection dropped');
+            connection.query(sql, function (err, result) {
+                if (err) throw err
+                res.json(result)
+                // release the connection
+                connection.release()
             })
-
-            this.establishedConnection = null;
-        }
-    }
+        })
+    },
 }
-
-module.exports = DB;

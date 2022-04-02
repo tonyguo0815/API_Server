@@ -1,11 +1,8 @@
 const DB = require('../modules/mysql')
 
-const db = new DB();
-
 module.exports = {
     queryAll: function (req, res) {
-        db.connect();
+        DB.actionDB(res, 'show tables');
         console.log("Call queryAll");
-        res.send('queryAll Test OK!');
     },
 }
