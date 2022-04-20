@@ -7,11 +7,11 @@ const app       = express();
 const http = require('http');
 const bodyParser = require('body-parser');
 
-const accounts = require('./routes/accounts')
+const example = require('./routes/example')
 
 app.use(bodyParser.json())                                    
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use('/accounts', accounts)
+app.use('/example', example)
 
 var httpServer = http.createServer(app)
 
