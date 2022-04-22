@@ -3,7 +3,7 @@
 
 ```
 Project
-└───api       #api模組資料夾
+└───api               #api模組資料夾
 │   └───api_example.js	#api模組
 └───modules				      #模組資料夾
 │   │	mysql.js		      #MySQL模組
