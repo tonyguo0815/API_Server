@@ -5,7 +5,7 @@
 Project
 └───api                 #api模組資料夾
 │   └───api_example.js	#api模組
-└───modules				      #模組資料夾
+└───modules             #模組資料夾
 │   │	mysql.js		      #MySQL模組
 │   └───tool.js			    #工具模組
 └───router				      #router資料夾
